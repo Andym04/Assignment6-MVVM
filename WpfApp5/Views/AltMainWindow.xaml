@@ -1,0 +1,87 @@
+﻿<Window x:Class="Smalldatabaseapp.Views.AltMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Smalldatabaseapp.ViewModels"
+        mc:Ignorable="d"
+        Title="Alternative View - People Application" Height="600" Width="680"
+        ResizeMode="CanMinimize">
+
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="People Management (ListBox View)" FontSize="24" FontWeight="Bold" Margin="0,0,0,5"/>
+        <TextBlock Grid.Row="1" Text="Select a person from the list to view or edit their details." Foreground="Gray" Margin="0,0,0,10"/>
+
+        <!-- Search Bar -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
+            <Label Content="S_earch:" Target="{Binding ElementName=SearchTextBox}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox x:Name="SearchTextBox" Width="200" Height="25" VerticalContentAlignment="Center" Margin="0,0,10,0"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" TabIndex="0"/>
+        </StackPanel>
+
+        <!-- ListBox en lugar de DataGrid -->
+        <ListBox x:Name="PeopleListBox" 
+                 Grid.Row="3" 
+                 ItemsSource="{Binding People}"
+                 SelectedItem="{Binding SelectedPerson, Mode=TwoWay}"
+                 Margin="0,0,0,15"
+                 TabIndex="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock FontSize="14">
+                        <Run Text="{Binding FirstName}"/>
+                        <Run Text=" "/>
+                        <Run Text="{Binding LastName}"/>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- External Detail Editor -->
+        <GroupBox Grid.Row="4" Header="Edit Selected Person" Margin="0,0,0,15" Padding="10" DataContext="{Binding SelectedItem, ElementName=PeopleListBox}">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="0,0,10,0">
+                    <Label Content="_First Name" Target="{Binding ElementName=FirstNameTextBox}" Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Width="150" TabIndex="2" x:Name="FirstNameTextBox"/>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,10,0">
+                    <Label Content="_Last Name" Target="{Binding ElementName=LastNameTextBox}" Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Width="150" TabIndex="3" x:Name="LastNameTextBox"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <Label Content="A_ge" Target="{Binding ElementName=AgeTextBox}" Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}" Width="60" TabIndex="4" x:Name="AgeTextBox"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Action Buttons -->
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="_Add" Command="{Binding AddCommand}" Width="80" Height="30" Margin="0,0,10,0" TabIndex="5"/>
+            <Button Content="_Delete" Command="{Binding DeleteCommand}" Width="90" Height="30" Margin="0,0,10,0" TabIndex="6"/>
+            <Button Content="_Save" Command="{Binding SaveCommand}" Width="80" Height="30" Margin="0,0,20,0" TabIndex="7"/>
+            <Button Content="Sort by _Name" Command="{Binding SortByNameCommand}" Width="110" Height="30" Margin="0,0,10,0" TabIndex="8"/>
+            <Button Content="S_ort by Age" Command="{Binding SortByAgeCommand}" Width="100" Height="30" TabIndex="9"/>
+        </StackPanel>
+
+        <!-- Footer -->
+        <TextBlock Grid.Row="6" Text="Data is stored securely using SQLite and EF Core." Foreground="Gray"/>
+    </Grid>
+</Window>
