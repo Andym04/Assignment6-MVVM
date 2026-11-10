@@ -25,7 +25,7 @@
 
         <!-- Header -->
         <TextBlock Grid.Row="0" Text="People Management" FontSize="24" FontWeight="Bold" Margin="0,0,0,5"/>
-        <TextBlock Grid.Row="1" Text="Select a person to view or edit their details. Save to keep changes" Foreground="Gray" Margin="0,0,0,10"/>
+        <TextBlock Grid.Row="1" Text="Select a person to view or edit their details. Save to keep changes." Foreground="Gray" Margin="0,0,0,10"/>
 
         <!-- Search Bar -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
